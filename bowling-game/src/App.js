@@ -7,6 +7,7 @@ function BowlingGame() {
         firstScore: Number,
         secondScore: Number,
         totalScorePerRound: [],
+        cumulatedScore: [],
     };
 
     for (let i = 0; i <= 9; i++) {
@@ -18,36 +19,30 @@ function BowlingGame() {
         return num + arrayOfRounds.secondScore[idx];
     });
 
-    console.log(arrayOfRounds);
+    const cumulativeSum = (sum => value => sum += value)(0);
 
-
-    const gameScores =
-        <table>
-            <tr>
-                {arrayOfRounds.round.map((i, index)=>{
-                    console.log("firstScore ", arrayOfRounds.firstScore[i]);
-                    return (
-                        <th key={index}>
-                            {arrayOfRounds.firstScore[i]}
-                            |
-                            {arrayOfRounds.secondScore[i]}
-                        </th>
-                    )
-                })}
-            </tr>
-            <tr>
-                {arrayOfRounds.totalScorePerRound.map((item, index)=>{
-                    return (
-                        <th key={index}>round total: {item}</th>
-                    )
-                })}
-            </tr>
-        </table>;
-
+    arrayOfRounds.cumulatedScore = arrayOfRounds.totalScorePerRound.map(cumulativeSum);
 
     return (
         <div>
-            {gameScores}
+            <table>
+                <tr>
+                    {arrayOfRounds.round.map((i, index)=>{
+                        return (
+                            <th key={index}>
+                                {arrayOfRounds.firstScore[i]} · {arrayOfRounds.secondScore[i]}
+                            </th>
+                        )
+                    })}
+                </tr>
+                <tr>
+                    {arrayOfRounds.cumulatedScore.map((item, index)=>{
+                        return (
+                            <th key={index}>round total: {item}</th>
+                        )
+                    })}
+                </tr>
+            </table>
         </div>
     );
 }
