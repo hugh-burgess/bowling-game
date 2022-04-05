@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.gitignore
 
 # testing
 /coverage
@@ -22,7 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.idea/
+.idea
 bowling-game.iml
 
 
