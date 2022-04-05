@@ -1,32 +1,55 @@
 import './App.css';
 
-function App() {
+function BowlingGame() {
 
-    const arrayOfRounds = [];
+    const arrayOfRounds = {
+        round: [],
+        firstScore: Number,
+        secondScore: Number,
+        totalScorePerRound: [],
+    };
 
-    for (let i = 1; i <= 10; i++) {
-        arrayOfRounds.push(i);
+    for (let i = 0; i <= 9; i++) {
+        arrayOfRounds.round.push(i);
+        arrayOfRounds.firstScore = Array.from({length: 10}, () => Math.floor(Math.random() * 5));
+        arrayOfRounds.secondScore = Array.from({length: 10}, () => Math.floor(Math.random() * 5));
     }
+    arrayOfRounds.totalScorePerRound = arrayOfRounds.firstScore.map(function (num, idx) {
+        return num + arrayOfRounds.secondScore[idx];
+    });
+
     console.log(arrayOfRounds);
 
 
-    const gameRound =
+    const gameScores =
         <table>
-            <th>
-                {arrayOfRounds.map((item,index)=>{
+            <tr>
+                {arrayOfRounds.round.map((i, index)=>{
+                    console.log("firstScore ", arrayOfRounds.firstScore[i]);
                     return (
-                        <th key={index}>{item} | {item}</th>
+                        <th key={index}>
+                            {arrayOfRounds.firstScore[i]}
+                            |
+                            {arrayOfRounds.secondScore[i]}
+                        </th>
                     )
                 })}
-            </th>
+            </tr>
+            <tr>
+                {arrayOfRounds.totalScorePerRound.map((item, index)=>{
+                    return (
+                        <th key={index}>round total: {item}</th>
+                    )
+                })}
+            </tr>
         </table>;
 
 
     return (
         <div>
-            {gameRound}
+            {gameScores}
         </div>
     );
 }
 
-export default App;
+export default BowlingGame;
