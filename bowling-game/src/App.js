@@ -12,13 +12,13 @@ import isStrikeCalculation from "./score-calculations/is-strike.calculation";
 import isSpareCalculation from "./score-calculations/is-spare.calculation";
 import thirdTryRule from "./rule/third-try.rule";
 import isMissCalculation from "./score-calculations/is-miss-calculation";
-import RoundEnumeration from "./enumerations/round.enumeration";
+import RoundEnumeration from "./enumerations/roundEnumeration";
 
 function BowlingGame() {
 
     const arrayOfRounds = dataArray();
 
-    for (let i = 0; i <= 9; i++) {
+    for (let i = 0; i <= RoundEnumeration.LAST_ROUND; i++) {
         populateData(arrayOfRounds, i);
     }
 
@@ -40,6 +40,7 @@ function BowlingGame() {
                                 : isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
                                 : isStrikeCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
                                 : isSpareCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
+                                : isMissCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsDashLg/>
                                 : randLeftoverAttempt}
 
                                 {arrayOfRounds.round[i] === RoundEnumeration.LAST_ROUND
