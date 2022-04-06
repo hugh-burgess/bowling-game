@@ -21,7 +21,7 @@ function BowlingGame() {
     }
 
     return (
-        <div>
+        <div style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
             <table>
                 <tr>
                     {arrayOfRounds.round.map((i, index) => {
