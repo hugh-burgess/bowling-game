@@ -2,27 +2,22 @@ import './App.css';
 import {GiBowlingPin} from "react-icons/gi";
 import {ImCross} from "react-icons/im";
 import {BsFillSquareFill, BsSlashLg} from "react-icons/bs";
+import dataArray from "./models/data-array-model";
+import populateData from "./services/populateData.service";
+import maxFromFirstScore from "./components/max-from-first-score.component";
+import cumulativeSum from "./services/cumulative-sum.service";
+import pinScoreCalculation from "./score-calculations/pin.score-calculation";
+import blankScoreCalculation from "./score-calculations/blank.score-calculation";
+import strikeScoreCalculation from "./score-calculations/strike.score-calculation";
+import spareScoreCalculation from "./score-calculations/spare.score-calculation";
+import thirdTryRule from "./rule/third-try.rule";
 
 function BowlingGame() {
 
-    const arrayOfRounds = {
-        round: [],
-        firstScore: Number,
-        totalScorePerRound: [],
-        cumulatedScore: [],
-        maxFromFirstScoreArray: [],
-        randLeftoverAttemptArray: [],
-    };
+    const arrayOfRounds = dataArray();
 
     for (let i = 0; i <= 9; i++) {
-        arrayOfRounds.round.push(i);
-        arrayOfRounds.firstScore = Array.from({length: 10}, () => Math.floor(Math.random() * 10));
-
-        const maxFromFirstScore = Math.abs(arrayOfRounds.firstScore[i]  - 10);
-        let randLeftoverAttempt = Math.random();
-        randLeftoverAttempt = Math.floor( randLeftoverAttempt * maxFromFirstScore);
-        arrayOfRounds.maxFromFirstScoreArray.push(maxFromFirstScore);
-        arrayOfRounds.randLeftoverAttemptArray.push(randLeftoverAttempt);
+        populateData(arrayOfRounds, i);
     }
 
     return (
@@ -30,32 +25,24 @@ function BowlingGame() {
             <table>
                 <tr>
                     {arrayOfRounds.round.map((i, index) => {
-
-                        const maxFromFirstScore = Math.abs(arrayOfRounds.firstScore[i]  - 10);
-                        let randLeftoverAttempt = Math.random();
-                        randLeftoverAttempt = Math.floor( randLeftoverAttempt * maxFromFirstScore);
-                        arrayOfRounds.maxFromFirstScoreArray.push(maxFromFirstScore);
+                        let randLeftoverAttempt = Math.floor( Math.random() * maxFromFirstScore(arrayOfRounds, i));
+                        arrayOfRounds.maxFromFirstScoreArray.push(maxFromFirstScore(arrayOfRounds, i));
                         arrayOfRounds.randLeftoverAttemptArray.push(randLeftoverAttempt);
                         arrayOfRounds.totalScorePerRound.push(arrayOfRounds.firstScore[i] + randLeftoverAttempt);
-
-                        const cumulativeSum = (sum => value => sum += value)(0);
-
-                        arrayOfRounds.cumulatedScore = arrayOfRounds.totalScorePerRound.map(cumulativeSum);
-
-                        const pin = arrayOfRounds.firstScore[i] === 9 && randLeftoverAttempt < 10;
-                        const blank = arrayOfRounds.firstScore[i] === 1 && randLeftoverAttempt === 1;
-                        const strike = arrayOfRounds.firstScore[i] === 10 && randLeftoverAttempt === 1;
-                        const spare = arrayOfRounds.firstScore[i] + randLeftoverAttempt === 10;
+                        arrayOfRounds.cumulatedScore = arrayOfRounds.totalScorePerRound.map(cumulativeSum());
+                        arrayOfRounds.thirdAttempt = Math.floor(Math.random() * 10);
                         return (
                             <th key={index}>
                                 {arrayOfRounds.firstScore[i]} ·
-                                {pin ? <GiBowlingPin/>
-                                : blank ? <BsFillSquareFill/>
-                                : strike ? <ImCross/>
-                                : spare ? <BsSlashLg/>
+                                {pinScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
+                                : blankScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
+                                : strikeScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
+                                : spareScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
                                 : randLeftoverAttempt}
 
-                                {arrayOfRounds.round[i] === 9 && (strike || spare) && 'third'}
+                                {arrayOfRounds.round[i] === 9
+                                && thirdTryRule(arrayOfRounds, randLeftoverAttempt, i)
+                                && arrayOfRounds.thirdAttempt}
                             </th>
                         )
                     })}
