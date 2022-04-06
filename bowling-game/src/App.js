@@ -31,23 +31,26 @@ function BowlingGame() {
                         arrayOfRounds.maxFromFirstScoreArray.push(maxFromFirstScore(arrayOfRounds, i));
                         arrayOfRounds.randLeftoverAttemptArray.push(randLeftoverAttempt);
                         arrayOfRounds.totalScorePerRound.push(
-                            (isBlankCalculation(arrayOfRounds.firstScore[i])
+                            (isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i)
                                 ? 0
                                 : arrayOfRounds.firstScore[i])
                             +
-                            (isBlankCalculation(randLeftoverAttempt)
-                                ? 0
+                            (isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i)
+                                ? 1
                                 : randLeftoverAttempt));
                         arrayOfRounds.cumulatedScore = arrayOfRounds.totalScorePerRound.map(cumulativeSum());
                         arrayOfRounds.thirdAttempt = Math.floor(Math.random() * 10);
                         return (
                             <th key={index}>
                                 {
-                                    isMissCalculation(arrayOfRounds.firstScore[i]) ? <BsDashLg/> :
-                                    isBlankCalculation(arrayOfRounds.firstScore[i]) ? <BsFillSquareFill/> : arrayOfRounds.firstScore[i]
+                                    isMissCalculation(arrayOfRounds.firstScore[i])
+                                        ? <BsDashLg/>
+                                    : isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i)
+                                        ? arrayOfRounds.firstScore[i]
+                                    : arrayOfRounds.firstScore[i]
                                 } · {
                                 isPinCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
-                                : isBlankCalculation(randLeftoverAttempt) ? <BsFillSquareFill/>
+                                : isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
                                 : isStrikeCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
                                 : isSpareCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
                                 : isMissCalculation(randLeftoverAttempt) ? <BsDashLg/>
