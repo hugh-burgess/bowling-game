@@ -33,8 +33,8 @@ function BowlingGame() {
                         arrayOfRounds.thirdAttempt = Math.floor(Math.random() * 10);
                         return (
                             <th key={index}>
-                                {arrayOfRounds.firstScore[i]} ·
-                                {pinScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
+                                {arrayOfRounds.firstScore[i]} · {
+                                pinScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
                                 : blankScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
                                 : strikeScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
                                 : spareScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
