@@ -35,12 +35,12 @@ function BowlingGame() {
                         arrayOfRounds.thirdAttempt = Math.floor(Math.random() * 10);
                         return (
                             <th key={index}>
-                                {isMissCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsDashLg/> : arrayOfRounds.firstScore[i]} · {
+                                {isMissCalculation(arrayOfRounds.firstScore[i]) ? <BsDashLg/> : arrayOfRounds.firstScore[i]} · {
                                 isPinCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
                                 : isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
                                 : isStrikeCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
                                 : isSpareCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
-                                : isMissCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsDashLg/>
+                                : isMissCalculation(randLeftoverAttempt) ? <BsDashLg/>
                                 : randLeftoverAttempt}
 
                                 {arrayOfRounds.round[i] === RoundEnumeration.LAST_ROUND
