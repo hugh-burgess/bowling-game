@@ -49,8 +49,14 @@ function BowlingGame() {
                 </tr>
                 <tr>
                     {arrayOfRounds.cumulatedScore.map((item, index) => {
+                        let randLeftoverAttempt = Math.floor( Math.random() * maxFromFirstScore(arrayOfRounds, item));
+                        let lastElement = arrayOfRounds.cumulatedScore[arrayOfRounds.cumulatedScore.length - 1];
                         return (
-                            <th key={index}>{item}</th>
+                            <th key={index}>{
+                                thirdTryRule(arrayOfRounds, randLeftoverAttempt, item)
+                                    ? lastElement + arrayOfRounds.thirdAttempt
+                                    : item
+                            }</th>
                         )
                     })}
                 </tr>
