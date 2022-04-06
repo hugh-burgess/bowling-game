@@ -6,10 +6,10 @@ import dataArray from "./models/data-array-model";
 import populateData from "./services/populateData.service";
 import maxFromFirstScore from "./components/max-from-first-score.component";
 import cumulativeSum from "./services/cumulative-sum.service";
-import pinScoreCalculation from "./score-calculations/pin.score-calculation";
-import blankScoreCalculation from "./score-calculations/blank.score-calculation";
-import strikeScoreCalculation from "./score-calculations/strike.score-calculation";
-import spareScoreCalculation from "./score-calculations/spare.score-calculation";
+import isPinCalculation from "./score-calculations/is-pin.calculation";
+import isBlankCalculation from "./score-calculations/is-blank.calculation";
+import isStrikeCalculation from "./score-calculations/is-strike.calculation";
+import isSpareCalculation from "./score-calculations/is-spare.calculation";
 import thirdTryRule from "./rule/third-try.rule";
 
 function BowlingGame() {
@@ -34,10 +34,10 @@ function BowlingGame() {
                         return (
                             <th key={index}>
                                 {arrayOfRounds.firstScore[i]} · {
-                                pinScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
-                                : blankScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
-                                : strikeScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
-                                : spareScoreCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
+                                isPinCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
+                                : isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
+                                : isStrikeCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
+                                : isSpareCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
                                 : randLeftoverAttempt}
 
                                 {arrayOfRounds.round[i] === 9
