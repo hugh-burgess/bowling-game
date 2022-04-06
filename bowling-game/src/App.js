@@ -1,7 +1,7 @@
 import './App.css';
 import {GiBowlingPin} from "react-icons/gi";
 import {ImCross} from "react-icons/im";
-import {BsFillSquareFill, BsSlashLg} from "react-icons/bs";
+import {BsFillSquareFill, BsSlashLg, BsDashLg} from "react-icons/bs";
 import dataArray from "./models/data-array-model";
 import populateData from "./services/populateData.service";
 import maxFromFirstScore from "./components/max-from-first-score.component";
@@ -11,6 +11,8 @@ import isBlankCalculation from "./score-calculations/is-blank.calculation";
 import isStrikeCalculation from "./score-calculations/is-strike.calculation";
 import isSpareCalculation from "./score-calculations/is-spare.calculation";
 import thirdTryRule from "./rule/third-try.rule";
+import isMissCalculation from "./score-calculations/is-miss-calculation";
+import RoundEnumeration from "./enumerations/round.enumeration";
 
 function BowlingGame() {
 
@@ -33,14 +35,14 @@ function BowlingGame() {
                         arrayOfRounds.thirdAttempt = Math.floor(Math.random() * 10);
                         return (
                             <th key={index}>
-                                {arrayOfRounds.firstScore[i]} · {
+                                {isMissCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsDashLg/> : arrayOfRounds.firstScore[i]} · {
                                 isPinCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <GiBowlingPin/>
                                 : isBlankCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsFillSquareFill/>
                                 : isStrikeCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <ImCross/>
                                 : isSpareCalculation(arrayOfRounds, randLeftoverAttempt, i) ? <BsSlashLg/>
                                 : randLeftoverAttempt}
 
-                                {arrayOfRounds.round[i] === 9
+                                {arrayOfRounds.round[i] === RoundEnumeration.LAST_ROUND
                                 && thirdTryRule(arrayOfRounds, randLeftoverAttempt, i)
                                 && arrayOfRounds.thirdAttempt}
                             </th>
